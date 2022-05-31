@@ -1,17 +1,20 @@
-const clientSocket = new WebSocket(`ws://${window.location.host}`); //브라우저에서 백엔드와 connection을 열어준다.
+const btn = document.querySelector(".outlined");
+const ws = new WebSocket(`ws://${location.host}`); //브라우저에서 백엔드와 connection을 열어준다.
 
-clientSocket.addEventListener("open", () => {
+ws.onopen = () => {
   console.log("Connected to Server");
-});
+};
 
-clientSocket.addEventListener("message", (message) => {
-  console.log("Just Got This : ", message, "from the Server");
-});
+ws.onmessage = (message) => {
+  console.log(message);
+};
 
-clientSocket.addEventListener("close", () => {
+ws.onclose = () => {
   console.log("Disconnected from Server");
-});
+};
 
-setTimeout(() => {
-  socket.send("Hello From the Browser!"); //front -> back로 보내기
-}, 1000);
+btn.onclick = () => {
+  if (!ws) return;
+
+  ws.send("Hello World!");
+};
