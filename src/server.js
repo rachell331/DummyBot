@@ -7,22 +7,14 @@ const app = express();
 /**pug 설정 */
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
-app.use(express.static("public"));
+app.use("/public", express.static(__dirname + "/public"));
 app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
 
 const server = http.createServer(app);
-const wss = new WebSocketServer({ clientTracking: false, noServer: true });
+const wss = new WebSocketServer({ server });
 
-server.on("upgrade", (request, socket, head) => {
-  console.log("Parsing Session From Request");
-
-  wss.handleUpgrade(request, socket, head, (ws) => {
-    wss.emit("connection", ws, request);
-  });
-});
-
-wss.on("connection", (ws, request) => {
+wss.on("connection", (ws) => {
   console.log("Connected to Browser");
 
   ws.on("message", (message) => {
@@ -32,4 +24,4 @@ wss.on("connection", (ws, request) => {
   ws.on("close", () => console.log("Disconnected From the Browser"));
 });
 
-server.listen(9000, () => console.log(`Listening On http://localhost:9000`));
+server.listen(3000, () => console.log(`Listening On http://localhost:3000`));
