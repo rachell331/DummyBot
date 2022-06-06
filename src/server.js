@@ -18,7 +18,7 @@ wss.on("connection", (ws) => {
   console.log("Connected to Browser");
 
   ws.on("message", (message) => {
-    console.log(message);
+    console.log(JSON.stringify(message.data));
   });
 
   ws.on("close", () => console.log("Disconnected From the Browser"));

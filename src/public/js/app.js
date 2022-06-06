@@ -20,10 +20,8 @@ setTimeout(() => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
-
   const input = msgForm.querySelector("input");
   ws.send(input.value);
-  console.log(input.value);
   input.value = "";
 };
 
