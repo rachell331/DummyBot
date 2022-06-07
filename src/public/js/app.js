@@ -1,5 +1,5 @@
-const msgList = document.querySelector("ul");
-const msgForm = document.querySelector("form");
+const messageList = document.querySelector("ul");
+const messageForm = document.querySelector("form");
 const ws = new WebSocket(`ws://${location.host}`); //브라우저에서 백엔드와 connection을 열어준다.
 
 ws.addEventListener("open", () => {
@@ -7,7 +7,9 @@ ws.addEventListener("open", () => {
 });
 
 ws.addEventListener("message", (message) => {
-  console.log("New Message: ", message.data);
+  const li = document.createElement("li");
+  li.innerText = message.data.toString("utf-8");
+  messageList.append(li);
 });
 
 ws.addEventListener("close", () => {
@@ -20,9 +22,9 @@ setTimeout(() => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  const input = msgForm.querySelector("input");
+  const input = messageForm.querySelector("input");
   ws.send(input.value);
   input.value = "";
 };
 
-msgForm.addEventListener("submit", handleSubmit);
+messageForm.addEventListener("submit", handleSubmit);

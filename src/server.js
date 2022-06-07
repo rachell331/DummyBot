@@ -14,14 +14,15 @@ app.get("/*", (_, res) => res.redirect("/"));
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
+const webss = [];
+
 wss.on("connection", (ws) => {
+  webss.push(ws);
   console.log("Connected to Browser");
-
-  ws.on("message", (message) => {
-    console.log(JSON.stringify(message.data));
-  });
-
   ws.on("close", () => console.log("Disconnected From the Browser"));
+  ws.on("message", (message) => {
+    webss.forEach((aws) => aws.send(message.toString("utf-8")));
+  });
 });
 
 server.listen(3000, () => console.log(`Listening On http://localhost:3000`));
