@@ -22,9 +22,11 @@ setTimeout(() => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  const input = messageForm.querySelector("input");
-  ws.send(input.value);
-  input.value = "";
+  const nickInput = messageForm.querySelector(".nick");
+  const chatInput = messageForm.querySelector(".chat");
+  ws.send(`[${nickInput}] : ${chatInput.value}`);
+  nickInput.value = "";
+  nickInput.value = "";
 };
 
 messageForm.addEventListener("submit", handleSubmit);
