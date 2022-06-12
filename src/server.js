@@ -1,5 +1,6 @@
 import express from "express";
 import http from "http";
+import { parse } from "path";
 import WebSocket, { WebSocketServer } from "ws";
 
 const app = express();
@@ -14,14 +15,22 @@ app.get("/*", (_, res) => res.redirect("/"));
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
-const webss = [];
+const wses = [];
 
 wss.on("connection", (ws) => {
-  webss.push(ws);
+  wses.push(ws);
+  ws["nickname"] = "Anonymous"; //nickname 초기값 설정
   console.log("Connected to Browser");
+
   ws.on("close", () => console.log("Disconnected From the Browser"));
   ws.on("message", (message) => {
-    webss.forEach((aws) => aws.send(message.toString("utf-8")));
+    const msg = JSON.parse(message);
+    switch (msg.type) {
+      case "new_message":
+        wses.forEach((ws) => ws.send(`${ws.nickname} : ${msg.payload}`));
+      case "nickname":
+        ws["nickname"] = msg.payload;
+    }
   });
 });
 
