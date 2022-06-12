@@ -29,7 +29,7 @@ wss.on("connection", (ws) => {
       case "new_message":
         wses.forEach((ws) => ws.send(`${ws.nickname} : ${msg.payload}`));
       case "nickname":
-        ws["nickname"] = msg.payload;
+        ws["nickname"] = msg.payload; //웹소켓 안에 정보를 저장할 수 있다.
     }
   });
 });

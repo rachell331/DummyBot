@@ -12,8 +12,6 @@ ws.addEventListener("open", () => {
   console.log("Connected to Server");
 });
 
-ws.addEventListener("message", (message) => {});
-
 ws.addEventListener("close", () => {
   console.log("Disconnected from Server");
 });
