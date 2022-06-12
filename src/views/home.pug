@@ -10,11 +10,6 @@ html(lang="en")
         header 
             h1 DummyBot 
         main 
-            ul
-            form#nick
-                input(type="text", name="nick", class="nick" placeholder="Write Your Nickname")
-                button Save 
-            form#message
-                input(type="text", name="chat", class="chat" placeholder="Write Your Message", required) 
-                button Send
+            
+        script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js")
